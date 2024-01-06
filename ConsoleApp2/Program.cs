@@ -23,7 +23,7 @@
             case "3": c = a * b; break;
             case "4":
                 if (b == 0) { Console.WriteLine("\nOf course I have a Divide by 0 check, lol."); }
-                else { c = a / 4; break; }
+                else { c = a / b; break; }
                 return;
             default:
                 Console.WriteLine("You can only choose from 1, 2, 3 or 4.");
