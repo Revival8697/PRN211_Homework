@@ -24,5 +24,7 @@
         {
             if (IsPrime(n)) { Console.WriteLine(n); }
         }
+
+        Console.ReadLine();
     }
 }
