@@ -50,12 +50,15 @@
             cbCountry = new CheckBox();
             cbCity = new CheckBox();
             groupFilter = new GroupBox();
+            txtCityFilter = new TextBox();
+            txtCountryFilter = new TextBox();
             btnFilter = new Button();
             groupBox1 = new GroupBox();
+            cbMemberNameSearch = new CheckBox();
+            cbMemberIdSearch = new CheckBox();
             txtMemberNameSearch = new TextBox();
             txtMemberIdSearch = new TextBox();
-            label8 = new Label();
-            label7 = new Label();
+            btnLoad = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvMemberList).BeginInit();
             ((System.ComponentModel.ISupportInitialize)fileSystemWatcher1).BeginInit();
             groupFilter.SuspendLayout();
@@ -66,16 +69,14 @@
             // 
             dgvMemberList.AllowUserToOrderColumns = true;
             dgvMemberList.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvMemberList.Location = new Point(10, 130);
+            dgvMemberList.Location = new Point(12, 130);
             dgvMemberList.Margin = new Padding(3, 2, 3, 2);
             dgvMemberList.Name = "dgvMemberList";
             dgvMemberList.ReadOnly = true;
             dgvMemberList.RowHeadersWidth = 51;
             dgvMemberList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvMemberList.Size = new Size(654, 142);
+            dgvMemberList.Size = new Size(654, 202);
             dgvMemberList.TabIndex = 0;
-            dgvMemberList.CellContentClick += dgvMemberList_CellContentClick;
-            dgvMemberList.CellValueChanged += dgvMemberList_CellValueChanged;
             // 
             // btnInsert
             // 
@@ -112,10 +113,10 @@
             // 
             // btnSearch
             // 
-            btnSearch.Location = new Point(5, 115);
+            btnSearch.Location = new Point(5, 125);
             btnSearch.Margin = new Padding(3, 2, 3, 2);
             btnSearch.Name = "btnSearch";
-            btnSearch.Size = new Size(82, 22);
+            btnSearch.Size = new Size(83, 22);
             btnSearch.TabIndex = 4;
             btnSearch.Text = "Search";
             btnSearch.UseVisualStyleBackColor = true;
@@ -238,7 +239,7 @@
             // cbCountry
             // 
             cbCountry.AutoSize = true;
-            cbCountry.Location = new Point(7, 20);
+            cbCountry.Location = new Point(6, 20);
             cbCountry.Margin = new Padding(3, 2, 3, 2);
             cbCountry.Name = "cbCountry";
             cbCountry.Size = new Size(69, 19);
@@ -250,7 +251,7 @@
             // cbCity
             // 
             cbCity.AutoSize = true;
-            cbCity.Location = new Point(7, 42);
+            cbCity.Location = new Point(6, 70);
             cbCity.Margin = new Padding(3, 2, 3, 2);
             cbCity.Name = "cbCity";
             cbCity.Size = new Size(47, 19);
@@ -261,6 +262,8 @@
             // 
             // groupFilter
             // 
+            groupFilter.Controls.Add(txtCityFilter);
+            groupFilter.Controls.Add(txtCountryFilter);
             groupFilter.Controls.Add(btnFilter);
             groupFilter.Controls.Add(cbCity);
             groupFilter.Controls.Add(cbCountry);
@@ -268,14 +271,32 @@
             groupFilter.Margin = new Padding(3, 2, 3, 2);
             groupFilter.Name = "groupFilter";
             groupFilter.Padding = new Padding(3, 2, 3, 2);
-            groupFilter.Size = new Size(184, 95);
+            groupFilter.Size = new Size(197, 159);
             groupFilter.TabIndex = 21;
             groupFilter.TabStop = false;
             groupFilter.Text = "Filter by:";
             // 
+            // txtCityFilter
+            // 
+            txtCityFilter.Location = new Point(6, 93);
+            txtCityFilter.Margin = new Padding(3, 2, 3, 2);
+            txtCityFilter.Name = "txtCityFilter";
+            txtCityFilter.ReadOnly = true;
+            txtCityFilter.Size = new Size(183, 23);
+            txtCityFilter.TabIndex = 28;
+            // 
+            // txtCountryFilter
+            // 
+            txtCountryFilter.Location = new Point(6, 43);
+            txtCountryFilter.Margin = new Padding(3, 2, 3, 2);
+            txtCountryFilter.Name = "txtCountryFilter";
+            txtCountryFilter.ReadOnly = true;
+            txtCountryFilter.Size = new Size(183, 23);
+            txtCountryFilter.TabIndex = 27;
+            // 
             // btnFilter
             // 
-            btnFilter.Location = new Point(7, 64);
+            btnFilter.Location = new Point(6, 130);
             btnFilter.Margin = new Padding(3, 2, 3, 2);
             btnFilter.Name = "btnFilter";
             btnFilter.Size = new Size(82, 22);
@@ -286,59 +307,79 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(cbMemberNameSearch);
+            groupBox1.Controls.Add(cbMemberIdSearch);
             groupBox1.Controls.Add(txtMemberNameSearch);
             groupBox1.Controls.Add(txtMemberIdSearch);
-            groupBox1.Controls.Add(label8);
-            groupBox1.Controls.Add(label7);
             groupBox1.Controls.Add(btnSearch);
-            groupBox1.Location = new Point(685, 130);
+            groupBox1.Location = new Point(685, 179);
             groupBox1.Margin = new Padding(3, 2, 3, 2);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new Padding(3, 2, 3, 2);
-            groupBox1.Size = new Size(184, 142);
+            groupBox1.Size = new Size(197, 153);
             groupBox1.TabIndex = 23;
             groupBox1.TabStop = false;
             groupBox1.Text = "Search by:";
             // 
+            // cbMemberNameSearch
+            // 
+            cbMemberNameSearch.AutoSize = true;
+            cbMemberNameSearch.Location = new Point(5, 70);
+            cbMemberNameSearch.Margin = new Padding(3, 2, 3, 2);
+            cbMemberNameSearch.Name = "cbMemberNameSearch";
+            cbMemberNameSearch.Size = new Size(106, 19);
+            cbMemberNameSearch.TabIndex = 30;
+            cbMemberNameSearch.Text = "Member Name";
+            cbMemberNameSearch.UseVisualStyleBackColor = true;
+            cbMemberNameSearch.CheckedChanged += CBMemberNameSearch_CheckedChanged;
+            // 
+            // cbMemberIdSearch
+            // 
+            cbMemberIdSearch.AutoSize = true;
+            cbMemberIdSearch.Location = new Point(7, 20);
+            cbMemberIdSearch.Margin = new Padding(3, 2, 3, 2);
+            cbMemberIdSearch.Name = "cbMemberIdSearch";
+            cbMemberIdSearch.Size = new Size(85, 19);
+            cbMemberIdSearch.TabIndex = 29;
+            cbMemberIdSearch.Text = "Member ID";
+            cbMemberIdSearch.UseVisualStyleBackColor = true;
+            cbMemberIdSearch.CheckedChanged += cbMemberIdSearch_CheckedChanged;
+            // 
             // txtMemberNameSearch
             // 
-            txtMemberNameSearch.Location = new Point(5, 83);
+            txtMemberNameSearch.Location = new Point(5, 93);
             txtMemberNameSearch.Margin = new Padding(3, 2, 3, 2);
             txtMemberNameSearch.Name = "txtMemberNameSearch";
-            txtMemberNameSearch.Size = new Size(171, 23);
+            txtMemberNameSearch.ReadOnly = true;
+            txtMemberNameSearch.Size = new Size(184, 23);
             txtMemberNameSearch.TabIndex = 26;
             // 
             // txtMemberIdSearch
             // 
-            txtMemberIdSearch.Location = new Point(5, 34);
+            txtMemberIdSearch.Location = new Point(5, 43);
             txtMemberIdSearch.Margin = new Padding(3, 2, 3, 2);
             txtMemberIdSearch.Name = "txtMemberIdSearch";
-            txtMemberIdSearch.Size = new Size(171, 23);
+            txtMemberIdSearch.ReadOnly = true;
+            txtMemberIdSearch.Size = new Size(184, 23);
             txtMemberIdSearch.TabIndex = 25;
             // 
-            // label8
+            // btnLoad
             // 
-            label8.AutoSize = true;
-            label8.Location = new Point(5, 66);
-            label8.Name = "label8";
-            label8.Size = new Size(90, 15);
-            label8.TabIndex = 24;
-            label8.Text = "Member Name:";
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Location = new Point(5, 17);
-            label7.Name = "label7";
-            label7.Size = new Size(69, 15);
-            label7.TabIndex = 24;
-            label7.Text = "Member ID:";
+            btnLoad.Location = new Point(517, 104);
+            btnLoad.Margin = new Padding(3, 2, 3, 2);
+            btnLoad.Name = "btnLoad";
+            btnLoad.Size = new Size(82, 22);
+            btnLoad.TabIndex = 25;
+            btnLoad.Text = "Load";
+            btnLoad.UseVisualStyleBackColor = true;
+            btnLoad.Click += btnLoad_Click;
             // 
             // frmMemberManagement
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(885, 285);
+            ClientSize = new Size(893, 340);
+            Controls.Add(btnLoad);
             Controls.Add(groupBox1);
             Controls.Add(groupFilter);
             Controls.Add(txtCountry);
@@ -362,7 +403,6 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Member Management";
             Load += frmMemberManagement_Load;
-            Click += cbCity_Click;
             ((System.ComponentModel.ISupportInitialize)dgvMemberList).EndInit();
             ((System.ComponentModel.ISupportInitialize)fileSystemWatcher1).EndInit();
             groupFilter.ResumeLayout(false);
@@ -401,7 +441,10 @@
         private GroupBox groupBox1;
         private TextBox txtMemberNameSearch;
         private TextBox txtMemberIdSearch;
-        private Label label8;
-        private Label label7;
+        private Button btnLoad;
+        private TextBox txtCountryFilter;
+        private TextBox txtCityFilter;
+        private CheckBox cbMemberNameSearch;
+        private CheckBox cbMemberIdSearch;
     }
 }

@@ -45,9 +45,10 @@
             // 
             // btnSave
             // 
-            btnSave.Location = new Point(157, 228);
+            btnSave.Location = new Point(137, 171);
+            btnSave.Margin = new Padding(3, 2, 3, 2);
             btnSave.Name = "btnSave";
-            btnSave.Size = new Size(94, 29);
+            btnSave.Size = new Size(82, 22);
             btnSave.TabIndex = 0;
             btnSave.Text = "Save";
             btnSave.UseVisualStyleBackColor = true;
@@ -56,105 +57,111 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(23, 23);
+            label1.Location = new Point(20, 17);
             label1.Name = "label1";
-            label1.Size = new Size(84, 20);
+            label1.Size = new Size(66, 15);
             label1.TabIndex = 1;
             label1.Text = "Member ID";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(24, 56);
+            label2.Location = new Point(21, 42);
             label2.Name = "label2";
-            label2.Size = new Size(109, 20);
+            label2.Size = new Size(87, 15);
             label2.TabIndex = 2;
             label2.Text = "Member Name";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(23, 89);
+            label3.Location = new Point(20, 67);
             label3.Name = "label3";
-            label3.Size = new Size(46, 20);
+            label3.Size = new Size(36, 15);
             label3.TabIndex = 3;
             label3.Text = "Email";
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(24, 122);
+            label4.Location = new Point(21, 92);
             label4.Name = "label4";
-            label4.Size = new Size(70, 20);
+            label4.Size = new Size(57, 15);
             label4.TabIndex = 4;
             label4.Text = "Password";
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(24, 155);
+            label5.Location = new Point(21, 116);
             label5.Name = "label5";
-            label5.Size = new Size(60, 20);
+            label5.Size = new Size(50, 15);
             label5.TabIndex = 5;
             label5.Text = "Country";
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(24, 188);
+            label6.Location = new Point(21, 141);
             label6.Name = "label6";
-            label6.Size = new Size(34, 20);
+            label6.Size = new Size(28, 15);
             label6.TabIndex = 6;
             label6.Text = "City";
             // 
             // txtMemberId
             // 
-            txtMemberId.Location = new Point(157, 20);
+            txtMemberId.Location = new Point(137, 15);
+            txtMemberId.Margin = new Padding(3, 2, 3, 2);
             txtMemberId.Name = "txtMemberId";
-            txtMemberId.Size = new Size(238, 27);
+            txtMemberId.Size = new Size(209, 23);
             txtMemberId.TabIndex = 7;
             // 
             // txtMemberName
             // 
-            txtMemberName.Location = new Point(157, 53);
+            txtMemberName.Location = new Point(137, 40);
+            txtMemberName.Margin = new Padding(3, 2, 3, 2);
             txtMemberName.Name = "txtMemberName";
-            txtMemberName.Size = new Size(238, 27);
+            txtMemberName.Size = new Size(209, 23);
             txtMemberName.TabIndex = 8;
             // 
             // txtEmail
             // 
-            txtEmail.Location = new Point(157, 86);
+            txtEmail.Location = new Point(137, 64);
+            txtEmail.Margin = new Padding(3, 2, 3, 2);
             txtEmail.Name = "txtEmail";
-            txtEmail.Size = new Size(238, 27);
+            txtEmail.Size = new Size(209, 23);
             txtEmail.TabIndex = 9;
             // 
             // txtPassword
             // 
-            txtPassword.Location = new Point(157, 119);
+            txtPassword.Location = new Point(137, 89);
+            txtPassword.Margin = new Padding(3, 2, 3, 2);
             txtPassword.Name = "txtPassword";
             txtPassword.PasswordChar = '*';
-            txtPassword.Size = new Size(238, 27);
+            txtPassword.Size = new Size(209, 23);
             txtPassword.TabIndex = 10;
             // 
             // txtCountry
             // 
-            txtCountry.Location = new Point(157, 152);
+            txtCountry.Location = new Point(137, 114);
+            txtCountry.Margin = new Padding(3, 2, 3, 2);
             txtCountry.Name = "txtCountry";
-            txtCountry.Size = new Size(238, 27);
+            txtCountry.Size = new Size(209, 23);
             txtCountry.TabIndex = 11;
             // 
             // txtCity
             // 
-            txtCity.Location = new Point(157, 185);
+            txtCity.Location = new Point(137, 139);
+            txtCity.Margin = new Padding(3, 2, 3, 2);
             txtCity.Name = "txtCity";
-            txtCity.Size = new Size(238, 27);
+            txtCity.Size = new Size(209, 23);
             txtCity.TabIndex = 12;
             // 
             // frmMemberDetail
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(411, 267);
+            ClientSize = new Size(360, 200);
             Controls.Add(txtCity);
             Controls.Add(txtCountry);
             Controls.Add(txtPassword);
@@ -168,6 +175,7 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(btnSave);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "frmMemberDetail";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Member Details";

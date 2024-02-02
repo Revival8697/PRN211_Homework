@@ -1,7 +1,6 @@
 ﻿using BusinessObject;
 using DataAccess.Repository;
 using System.Data;
-using System.Xml.Linq;
 
 namespace MyStoreWinApp
 {
@@ -11,7 +10,7 @@ namespace MyStoreWinApp
 
         private BindingSource memberSource;
         public frmMemberManagement() { InitializeComponent(); }
-        private void frmMemberManagement_Load(object sender, EventArgs e) {}
+        private void frmMemberManagement_Load(object sender, EventArgs e) { }
         private void btnInsert_Click(object sender, EventArgs e)
         {
             frmMemberDetail frmMemberDetail = new frmMemberDetail();
@@ -49,85 +48,8 @@ namespace MyStoreWinApp
         }
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            memberRepository.remove(txtMemberId.Text);
+            //memberRepository.remove(txtMemberId.Text);
             loadMembers();
-        }
-        private void btnSearch_Click(object sender, EventArgs e)
-        {
-            dgvMemberList.DataSource = null;
-            List<MemberObject> searchMembers = new List<MemberObject>();
-            MemberObject member = memberRepository.findByIdAndName(
-                buildMember().MemberId,
-                buildMember().MemberName
-            );
-
-            var filterMembers = memberRepository.findByIdAndName(txtMemberIdSearch.Text, txtMemberNameSearch.Text);
-
-            memberSource = new BindingSource();
-            memberSource.DataSource = searchMembers;
-
-            txtMemberName.DataBindings.Clear();
-            txtMemberId.DataBindings.Clear();
-            txtCountry.DataBindings.Clear();
-            txtEmail.DataBindings.Clear();
-            txtPassword.DataBindings.Clear();
-            txtCity.DataBindings.Clear();
-
-            txtMemberName.DataBindings.Add("Text", memberSource, "MemberName");
-            txtMemberId.DataBindings.Add("Text", memberSource, "MemberId");
-            txtCountry.DataBindings.Add("Text", memberSource, "Country");
-            txtEmail.DataBindings.Add("Text", memberSource, "Email"); ;
-            txtPassword.DataBindings.Add("Text", memberSource, "Password");
-            txtCity.DataBindings.Add("Text", memberSource, "City");
-
-            dgvMemberList.DataSource = null;
-            dgvMemberList.DataSource = memberSource;
-
-            if (searchMembers.Count() == 0)
-            {
-                clearText();
-                btnDelete.Enabled = false;
-            } else { btnDelete.Enabled = true; }
-        }
-        private void cbCountry_Click(object sender, EventArgs e)
-        {
-            if (cbCountry.Checked && cbCity.Checked)
-            {
-                txtCity.ReadOnly = false;
-                txtCountry.ReadOnly = false;
-            } else if (cbCountry.Checked && !cbCity.Checked)
-            {
-                txtCountry.ReadOnly = false;
-                txtCity.ReadOnly = true;
-            } else if (!cbCountry.Checked && cbCity.Checked)
-            {
-                txtCity.ReadOnly = false;
-                txtCountry.ReadOnly = true;
-
-            } else if (!cbCountry.Checked && !cbCity.Checked)
-            {
-                txtCity.ReadOnly = true;
-                txtCountry.ReadOnly = true;
-            }
-        }
-        private void cbCity_Click(object sender, EventArgs e)
-        {
-            if (cbCity.Checked && cbCountry.Checked)
-            {
-                txtCity.ReadOnly = false;
-                txtCountry.ReadOnly = false;
-            } else if (cbCity.Checked && !cbCountry.Checked) 
-            {
-                txtCity.ReadOnly = false;
-                txtCountry.ReadOnly = true;
-            } else if (!cbCity.Checked && cbCountry.Checked)
-            {
-                txtCountry.ReadOnly = false;
-                txtCity.ReadOnly = true;
-            } else if (!cbCity.Checked && !cbCountry.Checked) {
-                txtCity.ReadOnly = true;
-                txtCountry.ReadOnly = true;
-            }
         }
         private void clearText()
         {
@@ -166,13 +88,41 @@ namespace MyStoreWinApp
             {
                 clearText();
                 btnDelete.Enabled = false;
-            } else { btnDelete.Enabled = true; }
+            }
+            else { btnDelete.Enabled = true; }
         }
-        private void dgvMemberList_CellContentClick(object sender, DataGridViewCellEventArgs e) {}
-        private void dgvMemberList_CellValueChanged(object sender, DataGridViewCellEventArgs e) {}
         private void btnFilter_Click(object sender, EventArgs e)
         {
-            var filterMembers = memberRepository.filterByCountryAndCity(txtCountry.Text, txtCity.Text);
+            var FilterList = memberRepository.filterByCountryAndCity(txtCountryFilter.Text, txtCityFilter.Text).ToList();
+
+            memberSource = new BindingSource();
+            memberSource.DataSource = FilterList;
+
+            // Clear existing bindings
+            txtMemberName.DataBindings.Clear();
+            txtMemberId.DataBindings.Clear();
+            txtCountry.DataBindings.Clear();
+            txtEmail.DataBindings.Clear();
+            txtPassword.DataBindings.Clear();
+            txtCity.DataBindings.Clear();
+
+            // Bindings for the first member in the list (if any)
+            if (FilterList.Any())
+            {
+                txtMemberName.DataBindings.Add("Text", memberSource, "MemberName");
+                txtMemberId.DataBindings.Add("Text", memberSource, "MemberId");
+                txtCountry.DataBindings.Add("Text", memberSource, "Country");
+                txtEmail.DataBindings.Add("Text", memberSource, "Email");
+                txtPassword.DataBindings.Add("Text", memberSource, "Password");
+                txtCity.DataBindings.Add("Text", memberSource, "City");
+            }
+
+            dgvMemberList.DataSource = null;
+            dgvMemberList.DataSource = memberSource;
+        }
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            var filterMembers = memberRepository.findById(txtMemberIdSearch.Text);
 
             memberSource = new BindingSource();
             memberSource.DataSource = filterMembers;
@@ -191,8 +141,120 @@ namespace MyStoreWinApp
             txtPassword.DataBindings.Add("Text", memberSource, "Password");
             txtCity.DataBindings.Add("Text", memberSource, "City");
 
+
             dgvMemberList.DataSource = null;
             dgvMemberList.DataSource = memberSource;
+        }
+
+        private void btnLoad_Click(object sender, EventArgs e) { loadMembers(); }
+
+        private void cbCountry_Click(object sender, EventArgs e)
+        {
+            if (cbCountry.Checked && cbCity.Checked)
+            {
+                txtCityFilter.ReadOnly = false;
+                txtCountryFilter.ReadOnly = false;
+            }
+            else if (cbCountry.Checked && !cbCity.Checked)
+            {
+                txtCountryFilter.ReadOnly = false;
+                txtCityFilter.ReadOnly = true;
+                txtCityFilter.Clear();
+            }
+            else if (!cbCountry.Checked && cbCity.Checked)
+            {
+                txtCityFilter.ReadOnly = false;
+                txtCountryFilter.ReadOnly = true;
+                txtCountryFilter.Clear();
+            }
+            else if (!cbCountry.Checked && !cbCity.Checked)
+            {
+                txtCityFilter.ReadOnly = true;
+                txtCountryFilter.ReadOnly = true;
+                txtCountryFilter.Clear();
+                txtCityFilter.Clear();
+            }
+        }
+        private void cbCity_Click(object sender, EventArgs e)
+        {
+            if (cbCity.Checked && cbCountry.Checked)
+            {
+                txtCityFilter.ReadOnly = false;
+                txtCountryFilter.ReadOnly = false;
+            }
+            else if (cbCity.Checked && !cbCountry.Checked)
+            {
+                txtCityFilter.ReadOnly = false;
+                txtCountryFilter.ReadOnly = true;
+                txtCountryFilter.Clear();
+            }
+            else if (!cbCity.Checked && cbCountry.Checked)
+            {
+                txtCountryFilter.ReadOnly = false;
+                txtCityFilter.ReadOnly = true;
+                txtCityFilter.Clear();
+            }
+            else if (!cbCity.Checked && !cbCountry.Checked)
+            {
+                txtCityFilter.ReadOnly = true;
+                txtCountryFilter.ReadOnly = true;
+                txtCountryFilter.Clear();
+                txtCityFilter.Clear();
+            }
+        }
+        private void cbMemberIdSearch_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbMemberNameSearch.Checked && cbMemberIdSearch.Checked)
+            {
+                txtMemberNameSearch.ReadOnly = false;
+                txtMemberIdSearch.ReadOnly = false;
+            }
+            else if (cbMemberNameSearch.Checked && !cbMemberIdSearch.Checked)
+            {
+                txtMemberNameSearch.ReadOnly = false;
+                txtMemberIdSearch.ReadOnly = true;
+                txtMemberNameSearch.Clear();
+            }
+            else if (!cbMemberNameSearch.Checked && cbMemberIdSearch.Checked)
+            {
+                txtMemberNameSearch.ReadOnly = false;
+                txtMemberIdSearch.ReadOnly = true;
+                txtMemberIdSearch.Clear();
+            }
+            else if (!cbMemberNameSearch.Checked && !cbMemberIdSearch.Checked)
+            {
+                txtMemberNameSearch.ReadOnly = true;
+                txtMemberIdSearch.ReadOnly = true;
+                txtMemberNameSearch.Clear();
+                txtMemberIdSearch.Clear();
+            }
+        }
+        private void CBMemberNameSearch_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbMemberNameSearch.Checked && cbMemberIdSearch.Checked)
+            {
+                txtMemberNameSearch.ReadOnly = false;
+                txtMemberIdSearch.ReadOnly = false;
+            }
+            else if (cbMemberNameSearch.Checked && !cbMemberIdSearch.Checked)
+            {
+                txtMemberNameSearch.ReadOnly = false;
+                txtMemberIdSearch.ReadOnly = true;
+                txtMemberNameSearch.Clear();
+            }
+            else if (!cbMemberNameSearch.Checked && cbMemberIdSearch.Checked)
+            {
+                txtMemberNameSearch.ReadOnly = false;
+                txtMemberIdSearch.ReadOnly = true;
+                txtMemberIdSearch.Clear();
+            }
+            else if (!cbMemberNameSearch.Checked && !cbMemberIdSearch.Checked)
+            {
+                txtMemberNameSearch.ReadOnly = true;
+                txtMemberIdSearch.ReadOnly = true;
+                txtMemberNameSearch.Clear();
+                txtMemberIdSearch.Clear();
+            }
         }
     }
 }
