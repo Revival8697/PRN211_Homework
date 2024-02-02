@@ -48,7 +48,7 @@ namespace MyStoreWinApp
         }
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            //memberRepository.remove(txtMemberId.Text);
+            memberRepository.remove(txtMemberId.Text);
             loadMembers();
         }
         private void clearText()
