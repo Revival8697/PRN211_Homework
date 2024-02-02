@@ -98,7 +98,6 @@ namespace MyStoreWinApp
             memberSource = new BindingSource();
             memberSource.DataSource = FilterList;
 
-            // Clear existing bindings
             txtMemberName.DataBindings.Clear();
             txtMemberId.DataBindings.Clear();
             txtCountry.DataBindings.Clear();
@@ -106,7 +105,6 @@ namespace MyStoreWinApp
             txtPassword.DataBindings.Clear();
             txtCity.DataBindings.Clear();
 
-            // Bindings for the first member in the list (if any)
             if (FilterList.Any())
             {
                 txtMemberName.DataBindings.Add("Text", memberSource, "MemberName");
@@ -122,10 +120,10 @@ namespace MyStoreWinApp
         }
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            var filterMembers = memberRepository.findById(txtMemberIdSearch.Text);
+            var SearchList = memberRepository.findByIdAndName(txtMemberIdSearch.Text, txtMemberNameSearch.Text);
 
             memberSource = new BindingSource();
-            memberSource.DataSource = filterMembers;
+            memberSource.DataSource = SearchList;
 
             txtMemberName.DataBindings.Clear();
             txtMemberId.DataBindings.Clear();
@@ -134,13 +132,15 @@ namespace MyStoreWinApp
             txtPassword.DataBindings.Clear();
             txtCity.DataBindings.Clear();
 
-            txtMemberName.DataBindings.Add("Text", memberSource, "MemberName");
-            txtMemberId.DataBindings.Add("Text", memberSource, "MemberId");
-            txtCountry.DataBindings.Add("Text", memberSource, "Country");
-            txtEmail.DataBindings.Add("Text", memberSource, "Email"); ;
-            txtPassword.DataBindings.Add("Text", memberSource, "Password");
-            txtCity.DataBindings.Add("Text", memberSource, "City");
-
+            if (SearchList.Any())
+            {
+                txtMemberName.DataBindings.Add("Text", memberSource, "MemberName");
+                txtMemberId.DataBindings.Add("Text", memberSource, "MemberId");
+                txtCountry.DataBindings.Add("Text", memberSource, "Country");
+                txtEmail.DataBindings.Add("Text", memberSource, "Email");
+                txtPassword.DataBindings.Add("Text", memberSource, "Password");
+                txtCity.DataBindings.Add("Text", memberSource, "City");
+            }
 
             dgvMemberList.DataSource = null;
             dgvMemberList.DataSource = memberSource;
