@@ -23,7 +23,9 @@ namespace MyStoreWinApp
             string defaultEmail = config["DefaultAccount:Email"];
             string defaultPass = config["DefaultAccount:Password"];
 
-            return string.Equals(email, defaultEmail, StringComparison.OrdinalIgnoreCase) ? true : false;
+            if (string.Equals(email, defaultEmail, StringComparison.OrdinalIgnoreCase) == true
+                && string.Equals(password, defaultPass, StringComparison.OrdinalIgnoreCase) == true) return true;
+            else return false;
         }
         private IConfiguration getDefaultEmailAndPassConfig()
         {
