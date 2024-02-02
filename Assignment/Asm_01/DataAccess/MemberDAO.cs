@@ -30,9 +30,9 @@ namespace DataAccess
         { return members; }
         public List<MemberObject> findByIdAndName(string id, string name)
         {
-            if (string.IsNullOrEmpty(id)) { return members.Where(m => m.MemberId.Equals(name)).ToList(); }
+            if (string.IsNullOrEmpty(id)) { return members.Where(m => m.MemberName.Equals(name)).ToList(); }
             else if (string.IsNullOrEmpty(name)) { return members.Where(m => m.MemberId.Equals(id)).ToList(); }
-            else return members.Where(m => m.MemberId.Equals(name) && m.MemberId.Equals(id)).ToList();
+            else return members.Where(m => m.MemberName.Equals(name) && m.MemberId.Equals(id)).ToList();
         }
         public MemberObject findById(string id)
         { return members.Find(m => m.MemberId.Equals(id)); }

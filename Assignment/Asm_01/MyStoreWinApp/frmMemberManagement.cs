@@ -217,8 +217,8 @@ namespace MyStoreWinApp
             }
             else if (!cbMemberNameSearch.Checked && cbMemberIdSearch.Checked)
             {
-                txtMemberNameSearch.ReadOnly = false;
-                txtMemberIdSearch.ReadOnly = true;
+                txtMemberNameSearch.ReadOnly = true;
+                txtMemberIdSearch.ReadOnly = false;
                 txtMemberIdSearch.Clear();
             }
             else if (!cbMemberNameSearch.Checked && !cbMemberIdSearch.Checked)
@@ -244,8 +244,8 @@ namespace MyStoreWinApp
             }
             else if (!cbMemberNameSearch.Checked && cbMemberIdSearch.Checked)
             {
-                txtMemberNameSearch.ReadOnly = false;
-                txtMemberIdSearch.ReadOnly = true;
+                txtMemberNameSearch.ReadOnly = true;
+                txtMemberIdSearch.ReadOnly = false;
                 txtMemberIdSearch.Clear();
             }
             else if (!cbMemberNameSearch.Checked && !cbMemberIdSearch.Checked)
