@@ -1,13 +1,5 @@
 ﻿using BusinessObject.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace SalesWinApp
 {
@@ -19,18 +11,11 @@ namespace SalesWinApp
             InitializeComponent();
             RaiseEvent();
         }
-
-        private void RaiseEvent()
-        {
-            this.Load += frmOrderDetails_Load;
-        }
+        private void RaiseEvent() { this.Load += frmOrderDetails_Load; }
 
         private void frmOrderDetails_Load(object sender, EventArgs e)
         {
-            if (orderDetailsList.Count == 0)
-            {
-                return;
-            }
+            if (orderDetailsList.Count == 0) { return; }
 
             var datasource = orderDetailsList.Select(od => new
             {

@@ -84,7 +84,7 @@
             // 
             gbContent.Location = new Point(0, 31);
             gbContent.Name = "gbContent";
-            gbContent.Size = new Size(1163, 442);
+            gbContent.Size = new Size(24, 18);
             gbContent.TabIndex = 5;
             gbContent.TabStop = false;
             // 
@@ -113,7 +113,7 @@
         private ToolStripMenuItem ordersToolStripMenuItem;
         private ToolStripMenuItem productsToolStripMenuItem;
         private ToolStripMenuItem logOutToolStripMenuItem;
-        private GroupBox gbContent;
         private ToolStripMenuItem viewOrdersToolStripMenuItem;
+        private GroupBox gbContent;
     }
 }

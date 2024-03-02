@@ -1,38 +1,25 @@
 ﻿using BusinessObject.Models;
 using DataAccess.Repository;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace SalesWinApp
 {
     public partial class frmOrders : Form
     {
-        //Fields
         private readonly IOrderRepository orderRepository = new OrderRepository();
         private readonly IOrderDetailRepository orderDetailRepository = new OrderDetailRepository();
         public bool IsAdmin { get; set; } = false;
-
         public Member member;
-
         DateTime StartDate
         {
             get => Convert.ToDateTime(dtStartDate.Value);
             set => dtStartDate.Value = value;
         }
-
         DateTime EndDate
         {
             get => Convert.ToDateTime(dtEndDate.Value);
             set => dtEndDate.Value = value;
         }
-
         bool IsSort
         {
             get => cbSort.Checked;
@@ -45,15 +32,7 @@ namespace SalesWinApp
             Authentication();
             RaiseEvent();
         }
-
-        private void Authentication()
-        {
-            if (IsAdmin == false)
-            {
-                cbSort.Visible = false;
-            }
-        }
-
+        private void Authentication() { if (IsAdmin == false) { cbSort.Visible = false; } }
         private void RaiseEvent()
         {
             StartDate = DateTime.Now;
@@ -62,7 +41,6 @@ namespace SalesWinApp
             btnSearch.Click += btnSearch_Click;
             dgvOrders.CellContentDoubleClick += dgvOrders_CellContentDoubleClick;
         }
-
         private void dgvOrders_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (dgvOrders.SelectedRows.Count > 0)
@@ -75,13 +53,9 @@ namespace SalesWinApp
                     var detailsForm = new frmOrderDetails() { orderDetailsList = orderDetailsList };
                     detailsForm.ShowDialog();
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Load Order Details error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                catch (Exception ex) { MessageBox.Show(ex.Message, "Load Order Details error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
         }
-
         private void btnSearch_Click(object sender, EventArgs e)
         {
             if (StartDate >= EndDate)
@@ -94,11 +68,8 @@ namespace SalesWinApp
 
         private void SearchOrder()
         {
-            //var member = MemberSession.member;
-            //if (member is null)
-            //{
-            //    return;
-            //}
+            /*var member = MemberSession.member;
+            if (member is null { return; }*/
             try
             {
                 var orderList = IsAdmin switch
@@ -108,17 +79,10 @@ namespace SalesWinApp
                 };
                 LoadOrderListToView(orderList);
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Search Order Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            catch (Exception ex) { MessageBox.Show(ex.Message, "Search Order Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
-
         private void frmOrders_Load(object sender, EventArgs e)
-        {
-            LoadIntialOrders();
-        }
-
+        { LoadIntialOrders(); }
         private void LoadOrderListToView(List<Order> orderList)
         {
             if (orderList is null || orderList.Count == 0)
@@ -150,10 +114,7 @@ namespace SalesWinApp
                         MemberEmail = order.Member.Email,
                         Freight = order.Freight,
                     }).ToList();
-                    if (cbSort.Checked)
-                    {
-                        datasource = datasource.OrderBy(order => order.Freight).ToList();
-                    }
+                    if (cbSort.Checked) { datasource = datasource.OrderBy(order => order.Freight).ToList(); }
                     //dgvOrders.Columns["OrderDetails"].Visible = false;
                     dgvOrders.DataSource = null;
                     dgvOrders.DataSource = datasource;
@@ -165,19 +126,12 @@ namespace SalesWinApp
                 //    dgvOrders.Columns["MemberEmail"].Visible = false;
                 //}
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Load Order Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            catch (Exception ex) { MessageBox.Show(ex.Message, "Load Order Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
-
         private void LoadIntialOrders()
         {
             var member = MemberSession.member;
-            if (IsAdmin == false && member is null)
-            {
-                return;
-            }
+            if (IsAdmin == false && member is null) { return; }
             var orderList = IsAdmin switch
             {
                 true => orderRepository.GetAllOrders(),

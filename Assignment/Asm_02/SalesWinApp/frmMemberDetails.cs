@@ -1,14 +1,5 @@
 ﻿using BusinessObject.Models;
 using DataAccess.Repository;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace SalesWinApp
 {
@@ -26,39 +17,21 @@ namespace SalesWinApp
             Authenticate();
             RaiseEvent();
         }
-
         private void Authenticate()
         {
-            if (IsEdit == true)
-            {
-                txtMemberId.ReadOnly = true;
-            }
-            else
-            {
-                txtMemberId.ReadOnly = false;
-            }
+            if (IsEdit == true) { txtMemberId.ReadOnly = true; }
+            else { txtMemberId.ReadOnly = false; }
         }
-
         private void RaiseEvent()
         {
             this.Load += frmMemberDetails_Load;
             btnSave.Click += btnSave_Click;
-            btnCancel.Click += delegate
-            {
-                this.Close();
-            };
+            btnCancel.Click += delegate { this.Close(); };
         }
-
         private void frmMemberDetails_Load(object sender, EventArgs e)
         {
-            try
-            {  
-                LoadMemberData();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"{ex.Message}", "Load Member Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            try { LoadMemberData(); }
+            catch (Exception ex) { MessageBox.Show($"{ex.Message}", "Load Member Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -73,12 +46,9 @@ namespace SalesWinApp
                     MessageBox.Show((IsEdit) ? "Updated this member" : "Added this member", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.DialogResult = DialogResult.OK;
                 }
-            } catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, (IsEdit) ? "Update Member Error" : "Add Member Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            catch (Exception ex) { MessageBox.Show(ex.Message, (IsEdit) ? "Update Member Error" : "Add Member Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
-
         private Member GetMemberData()
         {
             int MemberId = Convert.ToInt32(txtMemberId.Text);
@@ -98,7 +68,6 @@ namespace SalesWinApp
             };
             return member;
         }
-
         private void SaveMember()
         {
             try
@@ -106,30 +75,17 @@ namespace SalesWinApp
                 var member = GetMemberData();
                 if (IsEdit)
                 {
-                    if (MemberSession.member.MemberId == member.MemberId)
-                    {
-                        MemberSession.member = member;
-                    }
+                    if (MemberSession.member.MemberId == member.MemberId) { MemberSession.member = member; }
                     repository.UpdateMember(member);
                 }
-                else
-                {
-                    repository.AddMember(member);
-                }
+                else { repository.AddMember(member); }
                 this.DialogResult = DialogResult.OK;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, (IsEdit) ? "Update Member Error" : "Add Member Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            catch (Exception ex) { MessageBox.Show(ex.Message, (IsEdit) ? "Update Member Error" : "Add Member Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
-
         private void LoadMemberData()
         {
-            if (CurrentMember is null || !IsEdit)
-            {
-                return;
-            }
+            if (CurrentMember is null || !IsEdit) { return; }
             txtMemberId.Text = CurrentMember.MemberId.ToString();
             txtEmail.Text = CurrentMember.Email;
             txtCompanyName.Text = CurrentMember.CompanyName;

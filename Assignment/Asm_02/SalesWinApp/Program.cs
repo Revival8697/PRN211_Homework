@@ -1,18 +1,11 @@
 namespace SalesWinApp
 {
-    /*
-     * dotnet ef dbcontext scaffold "Server=(local);Database=SalesManagementDB;User Id=sa;Password=12345;TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer --output-dir Models
-     */
+     // dotnet-ef dbcontext scaffold "Server=DESKTOP-ACECPNJ;uid=sa;pwd=sa;database=PRN211_ASM_02;trustservercertificate=true" Microsoft.EntityFrameworkCore.SqlServer --output-dir Models
     internal static class Program
     {
-        /// <summary>
-        ///  The main entry point for the application.
-        /// </summary>
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             Application.Run(new frmLogin());
         }

@@ -1,14 +1,6 @@
 ﻿using BusinessObject.Models;
 using DataAccess.Repository;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace SalesWinApp
 {
@@ -17,37 +9,30 @@ namespace SalesWinApp
         private readonly IMemberRepository memberRepository = new MemberRepository();
         private readonly IOrderRepository orderRepository = new OrderRepository();
         private BindingSource source;
-
         string Keyword
         {
             get => txtKeyword.Text.Trim();
             set => txtKeyword.Text = value;
         }
-
-        string companyName
-        {
-            get => cbCompanyName.SelectedItem?.ToString() ?? string.Empty;
-        }
-
+        string companyName { get => cbCompanyName.SelectedItem?.ToString() ?? string.Empty; }
         public frmMembers()
         {
             InitializeComponent();
             InitializeData();
             RaiseEvent();
         }
-
         private void RaiseEvent()
         {
             this.Load += frmMembers_Load;
             dgvMembers.SelectionChanged += dgvMembers_SelectionChanged;
             dgvMembers.CellDoubleClick += dgvMembers_CellDoubleClick;
+            cbCompanyName.KeyPress += cbCompanyName_KeyPress;
+            btnResetFilter.Click += btnResetFilter_Click;
+
             btnDelete.Click += btnDelete_Click;
             btnCreate.Click += btnCreate_Click;
             btnUpdate.Click += btnUpdate_Click;
-
             btnSearch.Click += btnSearch_Click;
-            cbCompanyName.KeyPress += cbCompanyName_KeyPress;
-            btnResetFilter.Click += btnResetFilter_Click;
         }
 
         private void btnResetFilter_Click(object sender, EventArgs e)
@@ -59,23 +44,13 @@ namespace SalesWinApp
                 LoadMemberList();
             }
         }
-
         private void ResetFilter()
         {
             txtKeyword.Clear();
             cbCompanyName.SelectedIndex = -1;
         }
-
-        private void cbCompanyName_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            e.Handled = true;
-        }
-
-        private void btnSearch_Click(object sender, EventArgs e)
-        {
-            SearchMembers();
-        }
-
+        private void cbCompanyName_KeyPress(object sender, KeyPressEventArgs e) { e.Handled = true; }
+        private void btnSearch_Click(object sender, EventArgs e) { SearchMembers(); }
         private void SearchMembers()
         {
             var MemberList = memberRepository.GetAllMembers(Keyword, companyName);
@@ -89,7 +64,6 @@ namespace SalesWinApp
             txtCity.DataBindings.Clear();
             txtPassword.DataBindings.Clear();
 
-
             txtMemberId.DataBindings.Add("Text", source, "MemberId");
             txtEmail.DataBindings.Add("Text", source, "Email");
             txtCompanyName.DataBindings.Add("Text", source, "CompanyName");
@@ -97,53 +71,40 @@ namespace SalesWinApp
             txtCountry.DataBindings.Add("Text", source, "Country");
             txtPassword.DataBindings.Add("Text", source, "Password");
 
-
             dgvMembers.DataSource = null;
             dgvMembers.DataSource = MemberList;
             dgvMembers.Columns["Orders"].Visible = false;
         }
-
         private void InitializeData()
         {
             var companyNameList = memberRepository.GetAllMembers().Select(member => member.CompanyName).ToArray();
             cbCompanyName.Items.AddRange(companyNameList);
         }
-
         private void btnUpdate_Click(object sender, EventArgs e)
         {
             UpdateMember();
             InitializeData();
         }
-
         private void btnCreate_Click(object sender, EventArgs e)
         {
             var DetailsMemberForm = new frmMemberDetails(false, true);
-            if (DetailsMemberForm.ShowDialog() == DialogResult.OK)
-            {
-                LoadMemberList();
-            }
+            if (DetailsMemberForm.ShowDialog() == DialogResult.OK) { LoadMemberList(); }
         }
-
         private void dgvMembers_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             UpdateMember();
             InitializeData();
         }
-
         private void UpdateMember()
         {
             var member = GetMemberFromSelectingRow();
-            var DetailsMemberForm = new frmMemberDetails(true, true)
-            {
-                CurrentMember = member
-            };
+            var DetailsMemberForm = new frmMemberDetails(true, true) { CurrentMember = member };
             if (DetailsMemberForm.ShowDialog() == DialogResult.OK)
             {
                 ClearText();
                 LoadMemberList();
             }
         }
-
         private void btnDelete_Click(object sender, EventArgs e)
         {
             var result = MessageBox.Show("Delete this member?", "Delete member", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -153,7 +114,6 @@ namespace SalesWinApp
                 InitializeData();
             }
         }
-
         private Member GetMemberFromSelectingRow()
         {
             Member member = null;
@@ -179,27 +139,19 @@ namespace SalesWinApp
             }
             return member;
         }
-
         private void DeleteMember()
         {
             var member = GetMemberFromSelectingRow();
             var orderList = orderRepository.GetOrdersByMemberID(member.MemberId);
-            if (orderList.Count > 0)
-            {
-                orderRepository.DeleteMemberOrders(member.MemberId);
-            }
+            if (orderList.Count > 0) { orderRepository.DeleteMemberOrders(member.MemberId); }
             memberRepository.DeleteMember(member);
             ClearText();
             LoadMemberList();
         }
-
         private void dgvMembers_SelectionChanged(object sender, EventArgs e)
         {
             var member = GetMemberFromSelectingRow();
-            if (member is null)
-            {
-                return;
-            }
+            if (member is null) { return; }
             UpdateMemberOnTextBoxes(member);
         }
 
@@ -215,10 +167,7 @@ namespace SalesWinApp
 
         private void UpdateMemberOnTextBoxes(Member member)
         {
-            if (member is null)
-            {
-                return;
-            }
+            if (member is null) { return; }
             txtMemberId.Text = member.MemberId.ToString();
             txtEmail.Text = member.Email;
             txtCompanyName.Text = member.CompanyName;
@@ -226,13 +175,11 @@ namespace SalesWinApp
             txtCountry.Text = member.Country;
             txtPassword.Text = member.Password;
         }
-
         private void frmMembers_Load(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
             LoadMemberList();
         }
-
         private void LoadMemberList()
         {
             var MemberList = memberRepository.GetAllMembers();
@@ -246,14 +193,12 @@ namespace SalesWinApp
             txtCity.DataBindings.Clear();
             txtPassword.DataBindings.Clear();
 
-
             txtMemberId.DataBindings.Add("Text", source, "MemberId");
             txtEmail.DataBindings.Add("Text", source, "Email");
             txtCompanyName.DataBindings.Add("Text", source, "CompanyName");
             txtCity.DataBindings.Add("Text", source, "City");
             txtCountry.DataBindings.Add("Text", source, "Country");
             txtPassword.DataBindings.Add("Text", source, "Password");
-
 
             dgvMembers.DataSource = null;
             dgvMembers.DataSource = MemberList;

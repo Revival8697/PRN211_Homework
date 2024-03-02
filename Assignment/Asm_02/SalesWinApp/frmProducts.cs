@@ -4,7 +4,6 @@ namespace SalesWinApp
 {
     public partial class frmProducts : Form
     {
-        //Fields
         private readonly IProductRepository productRepository = new ProductRepository();
         private readonly IOrderRepository orderRepository = new OrderRepository();
         private readonly IOrderDetailRepository orderDetailRepository = new OrderDetailRepository();
@@ -13,46 +12,38 @@ namespace SalesWinApp
         private Order CurrentOrder = null;
         private List<OrderDetail> OrderDetailsList = new List<OrderDetail>();
         private decimal TotalPrice = decimal.Zero;
-
         int ProductId
         {
             get => Convert.ToInt32(txtProductId.Text);
             set => txtProductId.Text = value.ToString();
         }
-
         int CategoryId
         {
             get => Convert.ToInt32(txtCategoryId.Text);
             set => txtCategoryId.Text = value.ToString();
         }
-
         string productName
         {
             get => txtProductName.Text;
             set => txtProductName.Text = value;
         }
-
         string Weight
         {
             get => txtWeight.Text;
             set => txtWeight.Text = value;
         }
-
         decimal UnitPrice
         {
             get => Convert.ToDecimal(txtUnitPrice.Text);
             set => txtUnitPrice.Text = value.ToString();
         }
-
         int UnitsInStock
         {
             get => Convert.ToInt32(txtUnitsInStock.Text);
             set => txtUnitsInStock.Text = value.ToString();
         }
-
         public bool IsAdmin { get; set; } = false;
 
-        //Constructors
         public frmProducts(bool isAdmin)
         {
             this.IsAdmin = isAdmin;
@@ -60,13 +51,9 @@ namespace SalesWinApp
             Authentication();
             RaiseEvent();
         }
-
         private void Authentication()
         {
-            if (IsAdmin == true)
-            {
-                gbOrder.Visible = false;
-            }
+            if (IsAdmin == true) { gbOrder.Visible = false; }
             else
             {
                 gbOrder.Visible = true;
@@ -75,22 +62,16 @@ namespace SalesWinApp
                 btnDelete.Visible = false;
             }
         }
-
         private void RaiseEvent()
         {
             this.Load += frmProducts_Load;
             dgvProducts.SelectionChanged += dgvProducts_SelectionChanged;
-            if (IsAdmin == true)
-            {
-                dgvProducts.CellDoubleClick += dgvProducts_CellDoubleClick;
-
-            }
+            if (IsAdmin == true) { dgvProducts.CellDoubleClick += dgvProducts_CellDoubleClick; }
             btnCreate.Click += btnCreate_Click;
             btnUpdate.Click += btnUpdate_Click;
             btnDelete.Click += btnDelete_Click;
             btnOrder.Click += btnOrder_Click;
 
-            //Search Events
             btnClear.Click += btnClear_Click;
             txtKeyword.TextChanged += txtKeyword_TextChanged;
             txtMinPrice.TextChanged += txtMinPrice_TextChanged;
@@ -101,24 +82,16 @@ namespace SalesWinApp
             btnRemoveOrderedProduct.Click += btnRemoveOrderedProduct_Click;
             btnSubmitOrder.Click += btnSubmitOrder_Click;
         }
-
         private void btnSubmitOrder_Click(object sender, EventArgs e)
         {
             var result = MessageBox.Show("Submit this order?", "Submit order", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result == DialogResult.Yes)
-            {
-                SubmitOrder();
-            }
+            if (result == DialogResult.Yes) { SubmitOrder(); }
         }
-
         private void SubmitOrder()
         {
             try
             {
-                if (OrderDetailsList.Count == 0)
-                {
-                    throw new Exception("There is no product");
-                }
+                if (OrderDetailsList.Count == 0) { throw new Exception("There is no product"); }
                 CurrentOrder.OrderDetails = OrderDetailsList;
                 orderDetailRepository.AddOrderDetailsList(OrderDetailsList);
                 CurrentOrder.Freight = TotalPrice;
@@ -130,24 +103,13 @@ namespace SalesWinApp
                 TotalPrice = decimal.Zero;
                 LoadOrderDetailsList();
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Submit Order Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
+            catch (Exception ex) { MessageBox.Show(ex.Message, "Submit Order Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
-
         private void btnRemoveOrderedProduct_Click(object sender, EventArgs e)
         {
             var result = MessageBox.Show("Remove this product from order list?", "Remove ordered product", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result == DialogResult.Yes)
-            {
-                RemoveOrderedProduct();
-            }
+            if (result == DialogResult.Yes) { RemoveOrderedProduct(); }
         }
-
-
-
         private void txtMaxUnit_TextChanged(object sender, EventArgs e)
         {
             int MaxUnit = -1;
@@ -156,12 +118,8 @@ namespace SalesWinApp
                 FilterData.MaxUnit = MaxUnit;
                 LoadProductList();
             }
-            else
-            {
-                MessageBox.Show("Invalid Max Unit", "Unit Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            else { MessageBox.Show("Invalid Max Unit", "Unit Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
-
         private void txtMinUnit_TextChanged(object sender, EventArgs e)
         {
             int MinUnit = -1;
@@ -170,12 +128,8 @@ namespace SalesWinApp
                 FilterData.MinUnit = MinUnit;
                 LoadProductList();
             }
-            else
-            {
-                MessageBox.Show("Invalid Min Unit", "Unit Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            else { MessageBox.Show("Invalid Min Unit", "Unit Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
-
         private void btnClear_Click(object sender, EventArgs e)
         {
             var result = MessageBox.Show("Reset the filter data?", "Reset filter", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -186,11 +140,7 @@ namespace SalesWinApp
                 MessageBox.Show("Reset filter success!");
             }
         }
-
-        private void ResetFilter()
-        {
-            FilterData.Reset();
-        }
+        private void ResetFilter() { FilterData.Reset(); }
 
         private void txtMaxPrice_TextChanged(object sender, EventArgs e)
         {
@@ -200,12 +150,8 @@ namespace SalesWinApp
                 FilterData.MaxPrice = MaxPrice;
                 LoadProductList();
             }
-            else
-            {
-                MessageBox.Show("Invalid Max Price", "Unit Price Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            else { MessageBox.Show("Invalid Max Price", "Unit Price Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
-
         private void txtMinPrice_TextChanged(object sender, EventArgs e)
         {
             decimal MinPrice = decimal.MinValue;
@@ -214,18 +160,13 @@ namespace SalesWinApp
                 FilterData.MinPrice = MinPrice;
                 LoadProductList();
             }
-            else
-            {
-                MessageBox.Show("Invalid Min Price", "Unit Price Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            else { MessageBox.Show("Invalid Min Price", "Unit Price Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
-
         private void txtKeyword_TextChanged(object sender, EventArgs e)
         {
             FilterData.Keyword = txtKeyword.Text;
             LoadProductList();
         }
-
         private void btnOrder_Click(object sender, EventArgs e)
         {
             var result = MessageBox.Show("Order this product?", "Order product", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -233,19 +174,12 @@ namespace SalesWinApp
             {
                 try
                 {
-                    if (Convert.ToInt32(txtQuantity.Text) <= 0)
-                    {
-                        throw new Exception("Invalid product quantity!");
-                    }
+                    if (Convert.ToInt32(txtQuantity.Text) <= 0) { throw new Exception("Invalid product quantity!"); }
                     AddProductToCart();
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Order Product Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                catch (Exception ex) { MessageBox.Show(ex.Message, "Order Product Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
         }
-
         private void RemoveOrderedProduct()
         {
             if (dgvOrderProducts.SelectedRows.Count <= 0)
@@ -262,12 +196,8 @@ namespace SalesWinApp
                 LoadOrderDetailsList();
                 UpdateTotalPrice();
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Remove order product error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            catch (Exception ex) { MessageBox.Show(ex.Message, "Remove order product error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
-
         private void LoadOrderDetailsList()
         {
             if (OrderDetailsList.Count == 0)
@@ -292,12 +222,8 @@ namespace SalesWinApp
                 dgvOrderProducts.DataSource = datasource;
                 dgvOrderProducts.Columns["ProductId"].Visible = false;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Load Ordered Product Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            catch (Exception ex) { MessageBox.Show(ex.Message, "Load Ordered Product Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
-
         private void AddProductToCart()
         {
             try
@@ -329,54 +255,31 @@ namespace SalesWinApp
                 UpdateTotalPrice();
                 MessageBox.Show("Added this product to order list!!", "Order Product", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Add Product to cart error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            catch (Exception ex) { MessageBox.Show(ex.Message, "Add Product to cart error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
 
         private void UpdateTotalPrice()
         {
-            foreach (var orderDetail in OrderDetailsList)
-            {
-                TotalPrice += orderDetail.Quantity * orderDetail.UnitPrice;
-            }
+            foreach (var orderDetail in OrderDetailsList) { TotalPrice += orderDetail.Quantity * orderDetail.UnitPrice; }
             txtTotalPrice.Text = string.Format("{0:F0}", TotalPrice);
         }
-
         private void btnDelete_Click(object sender, EventArgs e)
         {
             var product = GetCurrentProductRow();
             var result = MessageBox.Show("Delete this product?", "Delete product", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result == DialogResult.Yes)
-            {
-                productRepository.DeleteProduct(product);
-            }
+            if (result == DialogResult.Yes) { productRepository.DeleteProduct(product); }
         }
-
-        private void btnUpdate_Click(object sender, EventArgs e)
-        {
-            UpdateProduct();
-        }
-
+        private void btnUpdate_Click(object sender, EventArgs e) { UpdateProduct(); }
         private void btnCreate_Click(object sender, EventArgs e)
         {
-            var DetailsForm = new frmProductDetails()
-            {
-                IsEdit = false
-            };
+            var DetailsForm = new frmProductDetails() { IsEdit = false };
             if (DetailsForm.ShowDialog() == DialogResult.OK)
             {
                 ClearText();
                 LoadProductList();
             }
         }
-
-        private void dgvProducts_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            UpdateProduct();
-        }
-
+        private void dgvProducts_CellDoubleClick(object sender, DataGridViewCellEventArgs e) { UpdateProduct(); }
         private void UpdateProduct()
         {
             var product = GetCurrentProductRow();
@@ -391,7 +294,6 @@ namespace SalesWinApp
                 LoadProductList();
             }
         }
-
         private Product GetCurrentProductRow()
         {
             Product product = null;
@@ -417,19 +319,14 @@ namespace SalesWinApp
             }
             return product;
         }
-
         private void dgvProducts_SelectionChanged(object sender, EventArgs e)
         {
             var product = GetCurrentProductRow();
             UpdateProductToTextBoxes(product);
         }
-
         private void UpdateProductToTextBoxes(Product product)
         {
-            if (product is null)
-            {
-                return;
-            }
+            if (product is null) { return; }
             ProductId = product.ProductId;
             CategoryId = product.CategoryId;
             productName = product.ProductName;
@@ -437,7 +334,6 @@ namespace SalesWinApp
             UnitPrice = product.UnitPrice;
             UnitsInStock = product.UnitsInStock;
         }
-
         private void ClearText()
         {
             txtProductId.Clear();
@@ -447,20 +343,15 @@ namespace SalesWinApp
             txtUnitPrice.Clear();
             txtUnitsInStock.Clear();
         }
-
         private void frmProducts_Load(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
             LoadProductList();
         }
-
         private void LoadProductList()
         {
             var ProductList = productRepository.GetProductList(FilterData);
-            if (ProductList is null || ProductList.Count == 0)
-            {
-                return;
-            }
+            if (ProductList is null || ProductList.Count == 0) { return; }
             source = new BindingSource();
             source.DataSource = null;
             source.DataSource = ProductList;
