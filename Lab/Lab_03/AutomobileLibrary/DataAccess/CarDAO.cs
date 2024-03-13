@@ -79,7 +79,7 @@
                 if (_car != null)
                 {
                     using var context = new MyStockContext();
-                    context.Cars.Add(car);
+                    context.Cars.Update(car);
                     context.SaveChanges();
                 }
                 else
